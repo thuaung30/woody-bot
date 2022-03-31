@@ -7,6 +7,7 @@
     "watch": "tsc -w",
     "dev": "nodemon build/server.js",
     "build": "tsc",
+    "postinstall": "yarn build",
     "start": "node build/server.js"
   },
   "keywords": [

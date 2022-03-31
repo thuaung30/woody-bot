@@ -4,7 +4,5 @@ declare namespace NodeJS {
     IMG_URL: string;
     WEBHOOK_URL: string;
     PORT: string;
-    GOOGLE_CREDENTIALS: string;
-    CALENDAR_ID: string;
   }
 }
