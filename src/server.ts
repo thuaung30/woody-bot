@@ -43,7 +43,7 @@ bot.onTextMessage(/^booking$/, (_message, response) => {
   say(response, "What would you want to set booking for?", categories);
 });
 
-bot.onTextMessage(/^category:/, (message, response) => {
+bot.onTextMessage(/^category/, (message, response) => {
   // match doctor
   if (message.text === categories.Buttons[0].ActionBody) {
     say(response, doctors.ques, doctors.keyboard);
@@ -58,51 +58,60 @@ bot.onTextMessage(/^category:/, (message, response) => {
 
 bot.onTextMessage(/^doctor/i, (message, response) => {
   if (message.text === doctors.keyboard.Buttons[0].ActionBody) {
-    booking = doctors.keyboard.Buttons[0].Text;
+    booking = "Dr. Jessie";
     say(response, doctors.date_ques + "Jessie?" + date_format);
   } else if (message.text === doctors.keyboard.Buttons[1].ActionBody) {
-    booking = doctors.keyboard.Buttons[1].Text;
+    booking = "Dr. Potato";
     say(response, doctors.date_ques + "Potato?" + date_format);
   }
 });
 
 bot.onTextMessage(/^concert/i, (message, response) => {
   if (message.text === concerts.keyboard.Buttons[0].ActionBody) {
-    booking = concerts.keyboard.Buttons[0].Text;
+    booking = "The Rex Show";
     say(response, concerts.date_ques + " The Rex Show?" + date_format);
   } else if (message.text === concerts.keyboard.Buttons[1].ActionBody) {
-    booking = concerts.keyboard.Buttons[1].Text;
+    booking = "Wheezy's Musical";
     say(response, concerts.date_ques + " Wheezy's Musical?" + date_format);
   }
 });
 
 bot.onTextMessage(/^flight/i, (message, response) => {
   if (message.text === flights.keyboard.Buttons[0].ActionBody) {
-    booking = flights.keyboard.Buttons[0].Text;
+    booking = "Al's Toy Barn";
     say(response, flights.date_ques + " to Al's Toy Barn" + date_format);
   } else if (message.text === flights.keyboard.Buttons[1].ActionBody) {
-    booking = flights.keyboard.Buttons[1].Text;
+    booking = "Al's Apartment";
     say(response, flights.date_ques + " to Al's Apartment?" + date_format);
   }
 });
 
-bot.onTextMessage(/\d{2}\/\d{2}\/\d{2}/, (message, response) => {
-  date = message.text;
-  say(response, "When is the time?" + time_format);
-});
-
-bot.onTextMessage(/\d{2}:\d{2}\ am|pm/i, (message, response) => {
-  time = message.text;
-  if (!booking || !date) {
-    say(
-      response,
-      'You have not set up booking properly. Please type "booking" again.'
-    );
-  } else {
-    say(response, `Your booking for ${booking} is set on ${date} at ${time}.`);
+bot.onTextMessage(
+  /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/,
+  (message, response) => {
+    date = message.text;
+    say(response, "When is the time?" + time_format);
   }
-  cleanUp(booking, date, time);
-});
+);
+
+bot.onTextMessage(
+  /^(0?[1-9]|1[012]):[0-5][0-9]\ \b(am|pm)\b$/,
+  (message, response) => {
+    time = message.text;
+    if (!booking || !date) {
+      say(
+        response,
+        'You have not set up booking properly. Please type "booking" again.'
+      );
+    } else {
+      say(
+        response,
+        `Your booking for ${booking} is set on ${date} at ${time}. Have a nice day!`
+      );
+    }
+    cleanUp(booking, date, time);
+  }
+);
 
 bot.onTextMessage(/\w+/i, (_message, response) => {
   say(

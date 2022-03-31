@@ -1,15 +1,21 @@
 {
   "name": "woody-bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "Woody Bot is a sample viber chat bot developed with node.js and typescript.",
   "main": "index.js",
   "scripts": {
     "watch": "tsc -w",
     "dev": "nodemon build/server.js",
+    "build": "tsc",
     "start": "node build/server.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "viber",
+    "chatbot",
+    "node.js",
+    "typescript"
+  ],
+  "author": "thuaung30",
   "license": "ISC",
   "dependencies": {
     "dotenv-safe": "^8.2.0",
