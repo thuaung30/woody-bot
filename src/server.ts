@@ -10,12 +10,8 @@ import {
   concerts,
   flights,
 } from "./responses";
-import { cleanUp, say } from "./util";
+import { cleanUp, say, State } from "./util";
 import logger from "./logger";
-
-let booking: string | undefined;
-let date: string | undefined;
-let time: string | undefined;
 
 const bot = new Bot({
   logger: logger,
@@ -23,6 +19,12 @@ const bot = new Bot({
   name: "woodybot",
   avatar: config.IMG_URL,
 });
+
+let state: State = {
+  booking: null,
+  date: null,
+  time: null,
+};
 
 bot.onConversationStarted((response) => {
   say(
@@ -58,30 +60,30 @@ bot.onTextMessage(/^category/, (message, response) => {
 
 bot.onTextMessage(/^doctor/i, (message, response) => {
   if (message.text === doctors.keyboard.Buttons[0].ActionBody) {
-    booking = "Dr. Jessie";
+    state.booking = "Dr. Jessie";
     say(response, doctors.date_ques + "Jessie?" + date_format);
   } else if (message.text === doctors.keyboard.Buttons[1].ActionBody) {
-    booking = "Dr. Potato";
+    state.booking = "Dr. Potato";
     say(response, doctors.date_ques + "Potato?" + date_format);
   }
 });
 
 bot.onTextMessage(/^concert/i, (message, response) => {
   if (message.text === concerts.keyboard.Buttons[0].ActionBody) {
-    booking = "The Rex Show";
+    state.booking = "The Rex Show";
     say(response, concerts.date_ques + " The Rex Show?" + date_format);
   } else if (message.text === concerts.keyboard.Buttons[1].ActionBody) {
-    booking = "Wheezy's Musical";
+    state.booking = "Wheezy's Musical";
     say(response, concerts.date_ques + " Wheezy's Musical?" + date_format);
   }
 });
 
 bot.onTextMessage(/^flight/i, (message, response) => {
   if (message.text === flights.keyboard.Buttons[0].ActionBody) {
-    booking = "Al's Toy Barn";
+    state.booking = "Al's Toy Barn";
     say(response, flights.date_ques + " to Al's Toy Barn" + date_format);
   } else if (message.text === flights.keyboard.Buttons[1].ActionBody) {
-    booking = "Al's Apartment";
+    state.booking = "Al's Apartment";
     say(response, flights.date_ques + " to Al's Apartment?" + date_format);
   }
 });
@@ -89,7 +91,7 @@ bot.onTextMessage(/^flight/i, (message, response) => {
 bot.onTextMessage(
   /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/,
   (message, response) => {
-    date = message.text;
+    state.date = message.text;
     say(response, "When is the time?" + time_format);
   }
 );
@@ -97,8 +99,8 @@ bot.onTextMessage(
 bot.onTextMessage(
   /^(0?[1-9]|1[012]):[0-5][0-9]\ \b(am|pm)\b$/,
   (message, response) => {
-    time = message.text;
-    if (!booking || !date) {
+    state.time = message.text;
+    if (!state.booking || !state.date) {
       say(
         response,
         'You have not set up booking properly. Please type "booking" again.'
@@ -106,10 +108,10 @@ bot.onTextMessage(
     } else {
       say(
         response,
-        `Your booking for ${booking} is set on ${date} at ${time}. Have a nice day!`
+        `Your booking for ${state.booking} is set on ${state.date} at ${state.time}. Have a nice day!`
       );
-      cleanUp(booking, date, time);
     }
+    cleanUp(state);
   }
 );
 

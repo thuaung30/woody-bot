@@ -134,5 +134,5 @@ export const flights = {
   },
 };
 
-export const date_format = ' Date should be in this format: "dd/mm/yy".';
+export const date_format = ' Date should be in this format: "dd/mm/yyyy".';
 export const time_format = ' Time should be in this format: "hh:mm am/pm".';
