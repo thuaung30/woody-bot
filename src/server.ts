@@ -108,8 +108,8 @@ bot.onTextMessage(
         response,
         `Your booking for ${booking} is set on ${date} at ${time}. Have a nice day!`
       );
+      cleanUp(booking, date, time);
     }
-    cleanUp(booking, date, time);
   }
 );
 
