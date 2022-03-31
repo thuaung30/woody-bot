@@ -26,18 +26,25 @@ let state: State = {
   time: null,
 };
 
-bot.onConversationStarted((response) => {
+bot.onSubscribe((response) => {
   say(
     response,
     `Hi there ${response.userProfile.name}, I am Woody Bot! If you want to set booking, type "booking".`
   );
 });
 
-bot.onSubscribe((userProfile, _isSubscribed, _context, onFinish) => {
+bot.onConversationStarted((userProfile, _isSubscribed, _context, onFinish) => {
   onFinish(
     new Message.Text(
       `Hi there ${userProfile.name}, I am Woody Bot! If you want to set booking, just type "booking".`
     )
+  );
+});
+
+bot.onTextMessage(/!hi|hello$/i, (_message, response) => {
+  say(
+    response,
+    `Hi there ${response.userProfile.name}, I am Woody Bot! If you want to set booking, type "booking".`
   );
 });
 
