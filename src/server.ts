@@ -41,7 +41,7 @@ bot.onSubscribe((response) => {
   );
 });
 
-bot.onTextMessage(/!hi|hello$/i, (_message, response) => {
+bot.onTextMessage(/^\b(hi|hello)\b$/i, (_message, response) => {
   say(
     response,
     `Ahoy ${response.userProfile.name}, I am Woody Bot! 🤠🐴 If you want to book, just type "booking".`
@@ -115,7 +115,7 @@ bot.onTextMessage(
     } else {
       say(
         response,
-        `Your booking for ${state.booking} is set on ${state.date} at ${state.time}. Have a nice day!`
+        `Your booking for ${state.booking} is set on ${state.date} at ${state.time}. Have a nice day! 🤠🐴`
       );
     }
     cleanUp(state);
