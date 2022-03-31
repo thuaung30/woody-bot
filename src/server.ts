@@ -26,25 +26,25 @@ let state: State = {
   time: null,
 };
 
-bot.onSubscribe((response) => {
-  say(
-    response,
-    `Hi there ${response.userProfile.name}, I am Woody Bot! If you want to set booking, type "booking".`
-  );
-});
-
 bot.onConversationStarted((userProfile, _isSubscribed, _context, onFinish) => {
   onFinish(
     new Message.Text(
-      `Hi there ${userProfile.name}, I am Woody Bot! If you want to set booking, just type "booking".`
+      `Hi there ${userProfile.name}, I am Woody Bot! If you want my service, just turn on "Receive Messages" in the settings.`
     )
+  );
+});
+
+bot.onSubscribe((response) => {
+  say(
+    response,
+    `Hi there ${response.userProfile.name}! If you want to book, just type "booking".`
   );
 });
 
 bot.onTextMessage(/!hi|hello$/i, (_message, response) => {
   say(
     response,
-    `Hi there ${response.userProfile.name}, I am Woody Bot! If you want to set booking, type "booking".`
+    `Hi there ${response.userProfile.name}, I am Woody Bot! If you want to book, just type "booking".`
   );
 });
 
@@ -125,7 +125,7 @@ bot.onTextMessage(
 bot.onTextMessage(/\w+/i, (_message, response) => {
   say(
     response,
-    'I don\'t understand what you are saying, if you would like to book, please type "booking".'
+    "I'm so sorry that I don't understand what you are saying :( , if you would like to book, please type \"booking\"."
   );
 });
 
